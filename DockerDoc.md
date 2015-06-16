@@ -39,12 +39,14 @@ Herramientas docker:
 
 >1. Solución: Instalar la versión más nueva pero aun esta en desarrollo.
 >2. Solución: Crear 2 o más VM al mismo tiempo esperando que en alguna si funcione(eliminar inmediatamente aquellas VM que no funcionaran correctamente).
+
 ```
 Release Install -Version 0.2.0
 //Run in terminal
 curl -L https://github.com/docker/machine/releases/download/v0.2.0/docker-machine_darwin-amd64 > /usr/local/bin/docker-machine
 chmod +x /usr/local/bin/docker-machine
 ```
+
 ```
 Pre-Release Install -Version 0.3.0-rc2
 //Run in terminal
@@ -62,6 +64,7 @@ chmod +x /usr/local/bin/docker-compose
 ```
 docker pull swarm
 ```
+
 ### **Ubuntu**
 
 En este caso se pueden usar tanto **docker-machine** como instalar directamente **docker([instalar](http://docs.docker.com/installation/ubuntulinux/))**(no recomendable instalar ambos):
@@ -196,10 +199,10 @@ FROM xhamir/debian-base-app:0.01 //FROM es en que se basa la imagen que se crear
 MAINTAINER Omar Jair Montalvo Aquines <xhamir.one@gmail.com> // Autor
 
 #ENV NODE_VERSION='0.12.2' \ 
-#	NPM_VERSION='2.9.0' \
-#	RUBY_MAJOR='2.1' \
-#	RUBY_VERSION='2.1.6' \
-#	RUBY_DOWNLOAD_SHA256='1e1362ae7427c91fa53dc9c05aee4ee200e2d7d8970a891c5bd76bee28d28be4' 
+# NPM_VERSION='2.9.0' \
+# RUBY_MAJOR='2.1' \
+# RUBY_VERSION='2.1.6' \
+# RUBY_DOWNLOAD_SHA256='1e1362ae7427c91fa53dc9c05aee4ee200e2d7d8970a891c5bd76bee28d28be4' 
 #ENV son para la declaración de variables
 
 
@@ -209,28 +212,28 @@ RUN gpg --keyserver pool.sks-keyservers.net \
     114F43EE0176B71C7BC219DD50A3051F888C628D
 
 RUN curl -SLO "http://nodejs.org/dist/v0.12.2/node-v0.12.2-linux-x64.tar.gz" \
-	&& curl -SLO "http://nodejs.org/dist/v0.12.2/SHASUMS256.txt.asc" \
-	&& gpg --verify SHASUMS256.txt.asc \
-	&& grep " node-v0.12.2-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
-	&& tar -xzf "node-v0.12.2-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
-	&& rm "node-v0.12.2-linux-x64.tar.gz" SHASUMS256.txt.asc \
-	&& npm install -g npm@"2.9.0" \
-	&& npm cache clear \ 
-	&& apt-get update \
-	&& apt-get install -y bison libgdbm-dev ruby systemtap-sdt-dev \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p /usr/src/ruby \
-	&& curl -fSL -o ruby.tar.gz "http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.6.tar.gz" \
-	&& echo "1e1362ae7427c91fa53dc9c05aee4ee200e2d7d8970a891c5bd76bee28d28be4 *ruby.tar.gz" | sha256sum -c - \
-	&& tar -xzf ruby.tar.gz -C /usr/src/ruby --strip-components=1 \
-	&& rm ruby.tar.gz \
-	&& cd /usr/src/ruby \
-	&& autoconf \
-	&& ./configure --disable-install-doc --enable-dtrace \
-	&& make -j"$(nproc)" \
-	&& make install \
-	&& apt-get purge -y --auto-remove bison libgdbm-dev ruby systemtap-sdt-dev \
-	&& rm -r /usr/src/ruby 
+  && curl -SLO "http://nodejs.org/dist/v0.12.2/SHASUMS256.txt.asc" \
+  && gpg --verify SHASUMS256.txt.asc \
+  && grep " node-v0.12.2-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
+  && tar -xzf "node-v0.12.2-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+  && rm "node-v0.12.2-linux-x64.tar.gz" SHASUMS256.txt.asc \
+  && npm install -g npm@"2.9.0" \
+  && npm cache clear \ 
+  && apt-get update \
+  && apt-get install -y bison libgdbm-dev ruby systemtap-sdt-dev \
+  && rm -rf /var/lib/apt/lists/* \
+  && mkdir -p /usr/src/ruby \
+  && curl -fSL -o ruby.tar.gz "http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.6.tar.gz" \
+  && echo "1e1362ae7427c91fa53dc9c05aee4ee200e2d7d8970a891c5bd76bee28d28be4 *ruby.tar.gz" | sha256sum -c - \
+  && tar -xzf ruby.tar.gz -C /usr/src/ruby --strip-components=1 \
+  && rm ruby.tar.gz \
+  && cd /usr/src/ruby \
+  && autoconf \
+  && ./configure --disable-install-doc --enable-dtrace \
+  && make -j"$(nproc)" \
+  && make install \
+  && apt-get purge -y --auto-remove bison libgdbm-dev ruby systemtap-sdt-dev \
+  && rm -r /usr/src/ruby 
 
 # Instalación de bundler
 RUN gem install bundler --no-rdoc --no-ri
@@ -353,6 +356,9 @@ docker-compose run web rails c
 
 ### **Docker-Machine + Docker-Swarm**
 
+Es un cluster nativo de docker que convierte los hosts de Docker en uno solo virtual.
+
+
 Paso 1: En una VM correr:
 > ```
 > docker run swarm create
@@ -385,8 +391,27 @@ Para poder entrar al swarm master
 eval "$(docker-machine env --swarm swarm-master)"
 ```
 
-Entrando al swarm master puedes crear tus contenedores e imagenes con los mismo comandos de docker.
-
-El uso de swarm es poder hacer escalable algún contenedor.
+Entrando al swarm master puedes crear tus contenedores pero la función de build para crear una imagen desde un Dockerfile no esta disponible aún.
 
 Ejemplo:
+```
+docker run -d -p 80:80 --name frontend nginx
+docker run -d --name logger -e affinity:container==frontend logger
+```
+
+Estos comandos crean dos contenedores corriendo en la misma red mismo nodo.
+
+-----
+```
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED                  STATUS              PORTS                           NODE        NAMES
+87c4376856a8        nginx:latest        "nginx"             Less than a second ago   running             192.168.0.42:80->80/tcp         node-1      frontend
+963841b138d8        logger:latest       "logger"            Less than a second ago   running                                             node-1      logger
+
+```
+-----
+Los docker swarm tienen filtros,  el filtro de afinidad se usa para crear la atracción entre contenedores.
+
+La integración de la creación de una app compleja con compose dentro de swarm aún no esta lista ya que los diferentes host de cada nodo no se comunicación en la aplicación 
+
+Se puede hacer un docker-compose en cada nodo y en el master pero sin existir una comunicación entre ellos.
