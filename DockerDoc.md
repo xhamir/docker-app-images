@@ -421,23 +421,36 @@ Se puede hacer un docker-compose en cada nodo y en el master pero sin existir un
 
 ### **Docker**
 
+-----
  - [Docker Official Guide](http://docs.docker.com/userguide/)
  - [Docker Fundamentals Pluralsight](http://www.pluralsight.com/courses/docker-fundamentals)
  - [Docker Deep Dive](http://www.pluralsight.com/courses/docker-deep-dive)
 
+-----
+
 ###**Docker-Machine**
 
+-----
  - [Docker Official Guide](http://docs.docker.com/machine/)
  - [Repositorio Docker-Machine](https://github.com/docker/machine)
 
+-----
+
 ###**Docker-Compose**
+
+-----
 
  - [Docker Official Guide](http://docs.docker.com/compose/)
  - [Compose Rails](http://docs.docker.com/compose/rails/)
 
+-----
+
 ###**Docker-Swarm**
 
+----------
  - [Docker Official Guide](https://docs.docker.com/swarm/)
  - [First Look: Native Docker Clustering](http://www.pluralsight.com/courses/first-look-native-docker-clustering)
  - [SCALING DOCKER WITH SWARM](http://blog.docker.com/2015/02/scaling-docker-with-swarm/)
  - [ORCHESTRATING DOCKER WITH MACHINE, SWARM AND COMPOSE](https://blog.docker.com/2015/02/orchestrating-docker-with-machine-swarm-and-compose/)
+
+-----
